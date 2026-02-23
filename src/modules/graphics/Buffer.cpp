@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -341,7 +341,7 @@ std::vector<Buffer::DataDeclaration> Buffer::getCommonFormatDeclaration(CommonFo
 	case CommonFormat::XYf_STPf_RGBAub:
 		return {
 			{ getConstant(ATTRIB_POS), DATAFORMAT_FLOAT_VEC2, 0, ATTRIB_POS },
-			{ getConstant(ATTRIB_TEXCOORD), DATAFORMAT_FLOAT_VEC2, 0, ATTRIB_TEXCOORD },
+			{ getConstant(ATTRIB_TEXCOORD), DATAFORMAT_FLOAT_VEC3, 0, ATTRIB_TEXCOORD },
 			{ getConstant(ATTRIB_COLOR), DATAFORMAT_UNORM8_VEC4, 0, ATTRIB_COLOR },
 		};
 	case CommonFormat::COUNT:

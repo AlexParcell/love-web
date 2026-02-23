@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -59,6 +59,7 @@ public:
 		M_TOUCH,
 		M_VIDEO,
 		M_WINDOW,
+		M_STRING,
 		M_MAX_ENUM
 	};
 

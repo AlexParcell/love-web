@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -108,9 +108,14 @@ float TextShaper::getPixelHeight() const
 	return pixelHeight;
 }
 
+float TextShaper::getTextHeight() const
+{
+	return floorf(pixelHeight * lineHeight + 0.5f);
+}
+
 float TextShaper::getCombinedHeight() const
 {
-	return floorf(pixelHeight * lineHeight + 0.5f) / rasterizers[0]->getDPIScale();
+	return getTextHeight() / rasterizers[0]->getDPIScale();
 }
 
 void TextShaper::setLineHeight(float h)
@@ -205,6 +210,7 @@ float TextShaper::getKerning(uint32 leftglyph, uint32 rightglyph)
 	if (!found)
 		k = rasterizers[0]->getKerning(leftglyph, rightglyph) / rasterizers[0]->getDPIScale();
 
+	k = k + kerningOverride;
 	kerning[packedglyphs] = k;
 	return k;
 }
@@ -277,6 +283,11 @@ float TextShaper::getWidth(const std::string& str)
 	computeGlyphPositions(codepoints, Range(), Vector2(0.0f, 0.0f), 0.0f, nullptr, nullptr, &info);
 
 	return info.width;
+}
+
+void TextShaper::setKerningOverride(float inKerningOverride)
+{
+	kerningOverride = inKerningOverride;
 }
 
 static size_t findNewline(const ColoredCodepoints &codepoints, size_t start)

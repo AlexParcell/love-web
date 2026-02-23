@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -173,6 +173,7 @@ extern "C"
 	extern int luaopen_love_arg(lua_State*);
 	extern int luaopen_love_callbacks(lua_State*);
 	extern int luaopen_love_boot(lua_State*);
+	extern int luaopen_love_string(lua_State*);
 
 #ifdef LOVE_ENABLE_LUAHTTPS
 	extern int luaopen_https(lua_State*);
@@ -245,6 +246,7 @@ static const luaL_Reg modules[] = {
 	{ "love.arg", luaopen_love_arg },
 	{ "love.callbacks", luaopen_love_callbacks },
 	{ "love.boot", luaopen_love_boot },
+	{ "love.string", luaopen_love_string },
 	{ 0, 0 }
 };
 

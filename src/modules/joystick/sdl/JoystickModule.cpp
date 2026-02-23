@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -49,7 +49,7 @@ JoystickModule::JoystickModule()
 	int count = 0;
 	SDL_JoystickID *sticks = SDL_GetJoysticks(&count);
 	for (int i = 0; i < count; i++)
-		addJoystick((int64) sticks[i]);
+		addJoystick((int64)sticks[i]);
 	SDL_free(sticks);
 
 	// Start joystick event watching. Joysticks are automatically added and

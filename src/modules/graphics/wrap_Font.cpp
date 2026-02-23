@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -87,10 +87,30 @@ int w_Font_getHeight(lua_State *L)
 	return 1;
 }
 
+int w_Font_getTextHeight(lua_State *L)
+{
+	Font* t = luax_checkfont(L, 1);
+	lua_pushnumber(L, t->getTextHeight());
+	return 1;
+}
+
 int w_Font_getWidth(lua_State *L)
 {
 	Font *t = luax_checkfont(L, 1);
-	if (lua_type(L, 2) == LUA_TSTRING)
+
+	if (lua_type(L, 2) == LUA_TTABLE)
+	{
+		std::vector<love::font::ColoredString> text;
+		luax_checkcoloredstring(L, 2, text);
+
+		int width = 0;
+		for (const love::font::ColoredString& colStr : text)
+		{
+			width += t->getWidth(colStr.str);
+		}
+		luax_catchexcept(L, [&](){ lua_pushinteger(L, width); });
+	}
+	else if (lua_type(L, 2) == LUA_TSTRING)
 	{
 		const char *str = luaL_checkstring(L, 2);
 		luax_catchexcept(L, [&](){ lua_pushinteger(L, t->getWidth(str)); });
@@ -101,6 +121,14 @@ int w_Font_getWidth(lua_State *L)
 		luax_catchexcept(L, [&](){ lua_pushinteger(L, t->getWidth(glyph)); });
 	}
 	return 1;
+}
+
+int w_Font_setKerningOverride(lua_State *L)
+{
+	Font *t = luax_checkfont(L, 1);
+	float kerningOverride = (float)luaL_checknumber(L, 2);
+	t->setKerningOverride(kerningOverride);
+	return 0;
 }
 
 int w_Font_getWrap(lua_State *L)
@@ -272,9 +300,11 @@ static const luaL_Reg w_Font_functions[] =
 {
 	{ "getHeight", w_Font_getHeight },
 	{ "getWidth", w_Font_getWidth },
+	{ "getTextHeight", w_Font_getTextHeight},
 	{ "getWrap", w_Font_getWrap },
 	{ "setLineHeight", w_Font_setLineHeight },
 	{ "getLineHeight", w_Font_getLineHeight },
+	{ "setKerningOverride", w_Font_setKerningOverride },
 	{ "setFilter", w_Font_setFilter },
 	{ "getFilter", w_Font_getFilter },
 	{ "getAscent", w_Font_getAscent },

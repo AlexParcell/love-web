@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -2705,6 +2705,7 @@ void Graphics::polygon(DrawMode mode, const Vector2 *coords, size_t count, bool 
 			t.transformXY((Vector2*)data.stream[0], coords, cmd.vertexCount);
 		else
 			t.transformXY0((Vector3*)data.stream[0], coords, cmd.vertexCount);
+
 	}
 }
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -94,6 +94,7 @@ public:
 	float getHeight() const;
 	float getPixelHeight() const;
 
+	float getTextHeight() const;
 	float getCombinedHeight() const;
 
 	/**
@@ -123,6 +124,8 @@ public:
 
 	float getWidth(const std::string &str);
 
+	void setKerningOverride(float inKerningOverride);
+
 	void getWrap(const std::vector<ColoredString> &text, float wraplimit, std::vector<std::string> &lines, std::vector<float> *linewidths = nullptr);
 	void getWrap(const ColoredCodepoints &codepoints, float wraplimit, std::vector<Range> &lineranges, std::vector<float> *linewidths = nullptr);
 
@@ -139,6 +142,10 @@ protected:
 
 	std::vector<StrongRef<Rasterizer>> rasterizers;
 	std::vector<float> dpiScales;
+
+	// SERA.AP - BEGIN: Mod to allow for negative kerning
+	float kerningOverride = 0.0f;
+	// SERA-AP - END
 
 private:
 

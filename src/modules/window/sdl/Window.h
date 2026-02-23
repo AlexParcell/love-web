@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -24,6 +24,7 @@
 // LOVE
 #include "window/Window.h"
 #include "common/config.h"
+#include "common/EnumMap.h"
 #include "graphics/Graphics.h"
 
 // SDL
@@ -133,6 +134,8 @@ public:
 
 	void requestAttention(bool continuous) override;
 
+	SystemTheme getSystemTheme() const override;
+
 	void handleSDLEvent(const SDL_Event &event);
 
 private:
@@ -190,6 +193,9 @@ private:
 	StrongRef<graphics::Graphics> graphics;
 
 	Uint32 dialogEventId;
+
+	static EnumMap<SystemTheme, SDL_SystemTheme, THEME_MAX_ENUM>::Entry systemThemeEntries[];
+	static EnumMap<SystemTheme, SDL_SystemTheme, THEME_MAX_ENUM> systemThemes;
 
 }; // Window
 

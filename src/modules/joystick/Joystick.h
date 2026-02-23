@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -144,6 +144,24 @@ public:
 		INPUT_TYPE_MAX_ENUM
 	};
 
+	enum PowerType
+	{
+		POWER_UNKNOWN,      /**< cannot determine power status */
+		POWER_ON_BATTERY,   /**< Not plugged in, running on the battery */
+		POWER_NO_BATTERY,   /**< Plugged in, no battery available */
+		POWER_CHARGING,     /**< Plugged in, charging battery */
+		POWER_CHARGED,       /**< Plugged in, battery charged */
+		POWER_MAX_ENUM
+	};
+
+	enum ConnectionType
+	{
+		CONNECTION_UNKNOWN,
+		CONNECTION_WIRED,
+		CONNECTION_WIRELESS,
+		CONNECTION_MAX_ENUM
+	};
+
 	// Represents a gamepad input value, e.g. the "x" button or the left trigger.
 	struct GamepadInput
 	{
@@ -223,6 +241,8 @@ public:
 	virtual bool isSensorEnabled(Sensor::SensorType type) const = 0;
 	virtual void setSensorEnabled(Sensor::SensorType type, bool enabled) = 0;
 	virtual std::vector<float> getSensorData(Sensor::SensorType type) const = 0;
+	virtual PowerType getPowerInfo(int &batteryPercent) const = 0;
+	virtual ConnectionType getConnectionState() const = 0;
 
 	STRINGMAP_CLASS_DECLARE(Hat);
 	STRINGMAP_CLASS_DECLARE(JoystickType);
@@ -230,6 +250,8 @@ public:
 	STRINGMAP_CLASS_DECLARE(GamepadAxis);
 	STRINGMAP_CLASS_DECLARE(GamepadButton);
 	STRINGMAP_CLASS_DECLARE(InputType);
+	STRINGMAP_CLASS_DECLARE(PowerType);
+	STRINGMAP_CLASS_DECLARE(ConnectionType);
 
 	static float clampval(float x);
 

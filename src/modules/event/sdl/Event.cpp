@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -577,6 +577,9 @@ Message *Event::convert(const SDL_Event &e)
 		break;
 	case SDL_EVENT_LOCALE_CHANGED:
 		msg = new Message("localechanged");
+		break;
+	case SDL_EVENT_SYSTEM_THEME_CHANGED:
+		msg = new Message("themechanged");
 		break;
 	case SDL_EVENT_SENSOR_UPDATE:
 		sensorInstance = Module::getInstance<sensor::Sensor>(M_SENSOR);

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -94,6 +94,9 @@ public:
 	 **/
 	float getHeight() const;
 
+	// SERA.AP - hi
+	float getTextHeight() const;
+
 	/**
 	 * Returns the width of the passed string.
 	 *
@@ -124,6 +127,10 @@ public:
 	 * @param height The new line height.
 	 **/
 	void setLineHeight(float height);
+
+	// SERA.AP - Set kerning override
+	void setKerningOverride(float kerningOverride);
+	// SERA.AP - END
 
 	/**
 	 * Returns the line height.

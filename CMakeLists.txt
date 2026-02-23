@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006-2024 LOVE Development Team
+# Copyright (c) 2006-2025 LOVE Development Team
 #
 # This software is provided 'as-is', without any express or implied
 # warranty.  In no event will the authors be held liable for any damages
@@ -23,7 +23,7 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_BINARY_DIR})
 	message(FATAL_ERROR "Prevented in-tree build.")
 endif()
 
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.19)
 
 project(love)
 
@@ -1267,6 +1267,24 @@ target_link_libraries(love_window INTERFACE
 )
 
 ###################################
+# SERAPHINE SOFTWARE CUSTOM MODULES
+###################################
+
+#
+# love.string
+#
+
+add_library(love_string STATIC
+	src/modules/string/StringModule.cpp
+	src/modules/string/StringModule.h
+	src/modules/string/wrap_String.cpp
+	src/modules/string/wrap_String.h
+)
+target_link_libraries(love_string PUBLIC
+	lovedep::Lua
+)
+
+###################################
 # Third-party libraries
 ###################################
 
@@ -1943,6 +1961,7 @@ set(LIBLOVE_DEPENDENCIES
 	love_touch
 	love_video
 	love_window
+	love_string
 )
 set(LIBLOVE_LIBRARIES
 	love_3p_box2d

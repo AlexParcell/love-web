@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -38,6 +38,12 @@ int w_getOS(lua_State *L)
 int w_getProcessorCount(lua_State *L)
 {
 	lua_pushinteger(L, instance()->getProcessorCount());
+	return 1;
+}
+
+int w_getMemorySize(lua_State *L)
+{
+	lua_pushinteger(L, instance()->getMemorySize());
 	return 1;
 }
 
@@ -121,6 +127,7 @@ static const luaL_Reg functions[] =
 {
 	{ "getOS", w_getOS },
 	{ "getProcessorCount", w_getProcessorCount },
+	{ "getMemorySize", w_getMemorySize },
 	{ "setClipboardText", w_setClipboardText },
 	{ "getClipboardText", w_getClipboardText },
 	{ "getPowerInfo", w_getPowerInfo },

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -29,6 +29,7 @@
 #include <cmath>
 #include <iostream>
 #include <algorithm>
+#include <unordered_map>
 
 // Put the Lua code directly into a raw string literal.
 static const char math_lua[] =
@@ -408,6 +409,248 @@ int w_simplexNoise(lua_State* L)
 	return 1;
 }
 
+int w_dot(lua_State* L)
+{
+	if (lua_gettop(L) == 3)
+	{
+		float amag = luaL_checknumber(L, 1);
+		float bmag = luaL_checknumber(L, 2);
+		float angle = luaL_checknumber(L, 3);
+		float val = dot(amag, bmag, angle);
+		lua_pushnumber(L, (lua_Number)val);
+		return 1;
+	}
+	else if (lua_gettop(L) == 4)
+	{
+		float ax = luaL_checknumber(L, 1);
+		float ay = luaL_checknumber(L, 2);
+		float bx = luaL_checknumber(L, 3);
+		float by = luaL_checknumber(L, 4);
+		float val = dot(ax, ay, bx, by);
+		lua_pushnumber(L, (lua_Number)val);
+		return 1;
+	}
+
+	return 0;
+}
+
+int w_aabb(lua_State *L)
+{
+	if (lua_gettop(L) != 8)
+	{
+		return 0;
+	}
+
+	lua_pushboolean(L, aabb(
+		luaL_checknumber(L, 1),
+		luaL_checknumber(L, 2),
+		luaL_checknumber(L, 3),
+		luaL_checknumber(L, 4),
+		luaL_checknumber(L, 5),
+		luaL_checknumber(L, 6),
+		luaL_checknumber(L, 7),
+		luaL_checknumber(L, 8)
+	));
+
+	return 1;
+}
+
+int w_modn(lua_State *L)
+{
+	if (lua_gettop(L) != 3)
+	{
+		return 0;
+	}
+
+	lua_pushinteger(
+		L, modn(
+			luaL_checkinteger(L, 1),
+			luaL_checkinteger(L, 2),
+			luaL_checkinteger(L, 3)
+		)
+	);
+
+	return 1;
+}
+
+int w_fmodn(lua_State *L)
+{
+	if (lua_gettop(L) != 3)
+	{
+		return 0;
+	}
+
+	lua_pushinteger(L, 
+		fmodn(
+			luaL_checknumber(L, 1),
+			luaL_checknumber(L, 2),
+			luaL_checknumber(L, 3)
+		)
+	);
+
+	return 1;
+}
+
+int w_round(lua_State *L)
+{
+	if (lua_gettop(L) == 1)
+	{
+		lua_pushnumber(L, round(
+			luaL_checknumber(L, 1)
+		));
+		return 1;
+	}
+
+	return 0;
+}
+
+int w_lerp(lua_State *L)
+{	
+	if (lua_gettop(L) == 3)
+	{
+		lua_pushnumber(L,
+			lerp(
+				luaL_checknumber(L, 1), luaL_checknumber(L, 2), luaL_checknumber(L, 3)
+			)
+		);
+	}
+	else if (lua_gettop(L) == 4)
+	{
+		lua_pushnumber(L,
+			lerp(
+				luaL_checknumber(L, 1), luaL_checknumber(L, 2), ease(luaL_checknumber(L, 3), luaL_checkstring(L, 4))
+			)
+		);
+	}
+	else
+	{
+		return 0;
+	}
+
+	return 1;
+}
+
+int w_ease(lua_State *L)
+{
+	if (lua_gettop(L) != 2)
+	{
+		return 0;
+	}
+
+	lua_pushnumber(L, ease(luaL_checknumber(L, 1), luaL_checkstring(L, 2)));
+
+	return 1;
+}
+
+int w_fract(lua_State *L)
+{
+	if (lua_gettop(L) != 1)
+	{
+		return 0;
+	}
+
+	lua_pushnumber(L, fract(luaL_checknumber(L, 1)));
+
+	return 1;
+}
+
+int w_smoothstep(lua_State *L)
+{
+	if (lua_gettop(L) != 3)
+	{
+		return 0;
+	}
+
+	lua_pushnumber(L, smoothstep(luaL_checknumber(L, 1), luaL_checknumber(L, 2), luaL_checknumber(L, 3)));
+
+	return 1;
+}
+
+int w_hash1(lua_State *L)
+{
+	if (lua_gettop(L) != 1)
+	{
+		return 0;
+	}
+
+	lua_pushnumber(L, hash1(luaL_checknumber(L, 1)));
+
+	return 1;
+}
+
+int w_hash2(lua_State *L)
+{
+	if (lua_gettop(L) != 1)
+	{
+		return 0;
+	}
+
+	love::Vector2 ret = hash2(luaL_checknumber(L, 1));
+	lua_pushnumber(L, ret.x);
+	lua_pushnumber(L, ret.y);
+
+	return 2;
+}
+
+int w_clamp(lua_State *L)
+{
+	if (lua_gettop(L) != 3)
+	{
+		return 0;
+	}
+
+	lua_pushnumber(L,
+		clamp(
+			luaL_checknumber(L, 1),
+			luaL_checknumber(L, 2),
+			luaL_checknumber(L, 3)
+		)
+	);
+
+	return 1;
+}
+
+// SERA.AP - TODO: move this to not math
+static int w_fill_blobs(lua_State *L)
+{
+	luaL_checktype(L, 1, LUA_TTABLE);
+	float t = (float)luaL_checknumber(L, 2);
+	int   w = (int)luaL_checkinteger(L, 3);
+	int   h = (int)luaL_checkinteger(L, 4);
+
+	constexpr int BLOB_MAX = 80;
+	constexpr float WAX_BLOB_RADIUS = 0.1f;
+	constexpr float TEMP_RADIUS_SCALE = 0.20f;
+
+	for (int i = 0; i < BLOB_MAX; ++i)
+	{
+		float x, y;
+		blobCenter(i, t, x, y);
+
+		float localTemp = temperatureBlur(x, y, t, w, h);
+		float r = WAX_BLOB_RADIUS * (1.0f + TEMP_RADIUS_SCALE * (localTemp - 0.5f));
+		float r2 = r * r;
+
+		// v = blobVec4[i+1]
+		lua_rawgeti(L, 1, i + 1);
+		if (!lua_istable(L, -1))
+		{
+			lua_pop(L, 1);
+			return luaL_error(L, "blobVec4[%d] is not a table", i + 1);
+		}
+
+		lua_pushnumber(L, x);  lua_rawseti(L, -2, 1);
+		lua_pushnumber(L, y);  lua_rawseti(L, -2, 2);
+		lua_pushnumber(L, r);  lua_rawseti(L, -2, 3);
+		lua_pushnumber(L, r2); lua_rawseti(L, -2, 4);
+
+		lua_pop(L, 1); // pop v
+	}
+
+	return 0;
+}
+
+
 // C functions in a struct, necessary for the FFI versions of math functions.
 struct FFI_Math
 {
@@ -456,6 +699,20 @@ static const luaL_Reg functions[] =
 	{ "noise", w_noise },
 	{ "perlinNoise", w_perlinNoise },
 	{ "simplexNoise", w_simplexNoise },
+	{ "dot", w_dot },
+	{ "aabb", w_aabb },
+	{ "modn", w_modn },
+	{ "fmodn", w_fmodn },
+	{ "round", w_round },
+	{ "lerp", w_lerp },
+	{ "mix", w_lerp},
+	{ "ease", w_ease },
+	{ "clamp", w_clamp },
+	{ "fract", w_fract },
+	{ "smoothstep", w_smoothstep },
+	{ "hash1", w_hash1 },
+	{ "hash2" , w_hash2 },
+	{ "fillBlobs", w_fill_blobs },
 
 	{ 0, 0 }
 };

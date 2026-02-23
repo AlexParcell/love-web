@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -1656,6 +1656,25 @@ void Window::requestAttention(bool continuous)
 	
 	// TODO: Linux?
 }
+
+Window::SystemTheme Window::getSystemTheme() const
+{
+	SDL_SystemTheme sdlstate = SDL_GetSystemTheme();
+	SystemTheme state = THEME_UNKNOWN;
+	systemThemes.find(sdlstate, state);
+
+	return state;
+}
+
+EnumMap<Window::SystemTheme, SDL_SystemTheme, Window::THEME_MAX_ENUM>::Entry Window::systemThemeEntries[] =
+{
+	{Window::THEME_UNKNOWN, SDL_SYSTEM_THEME_UNKNOWN},
+	{Window::THEME_LIGHT, SDL_SYSTEM_THEME_LIGHT},
+	{Window::THEME_DARK, SDL_SYSTEM_THEME_DARK},
+};
+
+EnumMap<Window::SystemTheme, SDL_SystemTheme, Window::THEME_MAX_ENUM> Window::systemThemes(Window::systemThemeEntries, sizeof(Window::systemThemeEntries));
+
 
 } // sdl
 } // window

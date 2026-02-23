@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -62,6 +62,11 @@ public:
 	 * Hyperthreading-enabled Intel CPU will report 8, instead of 4.
 	 **/
 	virtual int getProcessorCount() const = 0;
+
+	/**
+	 * Gets the amount of RAM configured in the system in MiB.
+	 **/
+	virtual int getMemorySize() const = 0;
 
 	/**
 	 * Replaces the contents of the system's text clipboard with a string.

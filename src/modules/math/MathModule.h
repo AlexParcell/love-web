@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -77,6 +77,26 @@ float gammaToLinear(float c);
  * Converts a value from linear RGB to the sRGB (gamma) colorspace.
  **/
 float linearToGamma(float c);
+
+
+float dot(float ax, float ay, float bx, float by);
+float dot(float amag, float bmag, float angle); 
+bool aabb(float ax, float ay, float aw, float ah, float bx, float by, float bw, float bh);
+int modn(int x, int n, int offset);
+float fmodn(float x, float n, float offset);
+float lerp(float a, float b, float t);
+float ease(float x, std::string style);
+float clamp(float v, float lo, float hi);
+float fract(float x);
+float smoothstep(float e0, float e1, float x);
+float hash1(float n);
+love::Vector2 hash2(float n);
+float temperature(float uvx, float uvy, float t);
+float temperatureBlur(float uvx, float uvy, float t, int resx, int resy);
+void convection(float x, float y, float t, float &outDx, float &outDy);
+void blobCenter(int id, float t, float &outX, float &outY);
+
+
 
 /**
  * Calculate noise for the specified coordinate(s).

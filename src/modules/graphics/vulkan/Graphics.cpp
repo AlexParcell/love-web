@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -1468,7 +1468,10 @@ void Graphics::startRecordingGraphicsCommands()
 		fakeBackbuffer.set((Texture*)newTexture(settings, nullptr), Acquire::NORETAIN);
 	}
 
-	setDefaultRenderPass();
+	// Update the pending render pass state with current backbuffer data if no RT is active.
+	// If one is active, the state shouldn't need updating.
+	if (!isRenderTargetActive())
+		setDefaultRenderPass();
 
 	if (defaultVertexBuffer)
 	{

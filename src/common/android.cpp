@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -104,10 +104,10 @@ bool getSafeArea(int &top, int &left, int &bottom, int &right)
 
 	if (safeArea != nullptr)
 	{
-		top = env->GetIntField(activity, env->GetFieldID(rectClass, "top", "I"));
-		left = env->GetIntField(activity, env->GetFieldID(rectClass, "left", "I"));
-		bottom = env->GetIntField(activity, env->GetFieldID(rectClass, "bottom", "I"));
-		right = env->GetIntField(activity, env->GetFieldID(rectClass, "right", "I"));
+		top = env->GetIntField(safeArea, env->GetFieldID(rectClass, "top", "I"));
+		left = env->GetIntField(safeArea, env->GetFieldID(rectClass, "left", "I"));
+		bottom = env->GetIntField(safeArea, env->GetFieldID(rectClass, "bottom", "I"));
+		right = env->GetIntField(safeArea, env->GetFieldID(rectClass, "right", "I"));
         env->DeleteLocalRef(safeArea);
 	}
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -111,6 +111,15 @@ STRINGMAP_CLASS_BEGIN(Window, Window::DisplayOrientation, Window::ORIENTATION_MA
 	{"portraitflipped", Window::ORIENTATION_PORTRAIT_FLIPPED},
 }
 STRINGMAP_CLASS_END(Window, Window::DisplayOrientation, Window::ORIENTATION_MAX_ENUM, orientation)
+
+STRINGMAP_CLASS_BEGIN(Window, Window::SystemTheme, Window::THEME_MAX_ENUM, systemThemes)
+{
+	{"unknown", Window::THEME_UNKNOWN},
+	{"light", Window::THEME_LIGHT},
+	{"dark", Window::THEME_DARK}
+};
+STRINGMAP_CLASS_END(Window, Window::SystemTheme, Window::THEME_MAX_ENUM, systemThemes)
+
 
 } // window
 } // love

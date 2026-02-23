@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2024 LOVE Development Team
+ * Copyright (c) 2006-2025 LOVE Development Team
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
@@ -82,6 +82,7 @@ void TextBatch::uploadVertices(const std::vector<Font::GlyphVertex> &vertices, s
 		vertexBuffer = newbuffer;
 
 		vertexBuffers.set(0, vertexBuffer, 0);
+		modifiedVertices.encapsulate(0, newsize);
 	}
 
 	if (vertexData != nullptr && datasize > 0)

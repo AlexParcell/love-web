@@ -1,5 +1,5 @@
 /**
-* Copyright (c) 2006-2024 LOVE Development Team
+* Copyright (c) 2006-2025 LOVE Development Team
 *
 * This software is provided 'as-is', without any express or implied
 * warranty.  In no event will the authors be held liable for any damages
@@ -378,6 +378,11 @@ float Font::getHeight() const
 	return shaper->getHeight();
 }
 
+float Font::getTextHeight() const
+{
+	return shaper->getTextHeight();
+}
+
 std::vector<Font::DrawCommand> Font::generateVertices(const love::font::ColoredCodepoints &codepoints, Range range, const Colorf &constantcolor, std::vector<GlyphVertex> &vertices, float extra_spacing, Vector2 offset, love::font::TextShaper::TextInfo *info)
 {
 	std::vector<love::font::TextShaper::GlyphPosition> glyphpositions;
@@ -641,6 +646,11 @@ void Font::getWrap(const std::vector<love::font::ColoredString> &text, float wra
 void Font::setLineHeight(float height)
 {
 	shaper->setLineHeight(height);
+}
+
+void Font::setKerningOverride(float kerningOverride)
+{
+	shaper->setKerningOverride(kerningOverride);
 }
 
 float Font::getLineHeight() const
